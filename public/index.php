@@ -35,7 +35,7 @@
  * @since	Version 1.0.0
  * @filesource
  */
-
+chdir(dirname(__DIR__));
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
