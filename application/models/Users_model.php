@@ -1,49 +1,48 @@
-<?php 
+<?php
 
 class Users_model extends CI_Model
 {
-	protected $table_name = 'users';
+    protected $table_name = 'users';
 
-	public function __construct()
-	{
-		parent::construct();
-		$tis->load->database();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->database();
+    }
 
-	public function getByEmail()
-	{
-		$email = $this->input->post('email');
-		$query = $this->db->get_where($this->table_name, ['email' => $email]);
+    public function getByEmail()
+    {
+        $email = $this->input->post('email');
+        $query = $this->db->get_where($this->table_name, array('email' => $email));
+        return $query->first_row();
+    }
 
-		return $query->first_row();
-	}
+    public function getByEmailAndPassword()
+    {
+        $user = $this->getByEmail();
 
-	public function getByEmailAndPassord()
-	{
-		$user = $this->getByEmail();
+        if(!$user) {
+        	return false;
+        }
 
-		if (!$user) {
-			return false;
-		}
+        $password = $this->input->post('password');
+        $hash = $user->password;
 
-		$password = $this->input->post('password');
-		$hash = $user->password;
+        if (!password_verify($password, $hash)) {
+            return false;
+        }
 
-		if (!passord_verify($password, $hash)) {
-			return false;
-		}
+        return $user;
+    }
 
-		return $user;
-	}
+    public function new()
+    {
+        $data = [
+            'name' => $this->input->post('name'),
+            'email' => $this->input->post('email'),
+            'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT)
+        ];
 
-	public function new()
-	{
-		$data = [
-			'name'  => $this->input->post('name'),
-			'email' => $this->input->post('email'),
-			'password' => password_hash($this->input->post('password'), PASSWORD_BCRYPT)
-		];
-
-		return $this->db->insert($this->table_name, $data);
-	}
+        return $this->db->insert($this->table_name, $data);
+    }
 }
