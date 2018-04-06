@@ -2,18 +2,24 @@
 
 class Pages_model extends CI_Model
 {
+	protected $table_name = "pages";
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->database();
 	}
 
-	public function get()
+	public function get($id = null)
 	{
+		if ($id === null) {
+			$query = $this->db->get($this->table_name);
+			return $query->result();
+		}
 
-		$query = $this->db->get('pages');
+		$query = $this->db->get_where($this->table_name, ['id' => $id]);
+		return $query->first_row();
 
-		return $query->result();
 	}
 
 	public function new()
@@ -27,6 +33,6 @@ class Pages_model extends CI_Model
 			'slug' => $slug
 		];
 
-		return $this->db->insert('pages', $data);
+		return $this->db->insert($this->table_name, $data);
 	}
 }

@@ -11,7 +11,6 @@ class Pages extends CI_Controller
 
 	public function index()
 	{
-		
 
 		$pages = $this->pages_model->get();
 
@@ -22,7 +21,8 @@ class Pages extends CI_Controller
 
 	public function view($id)
 	{
-		echo 'Pages::view('.$id.')';
+		$page = $this->pages_model->get($id);
+		var_dump($page);
 	}
 
 	public function new()
