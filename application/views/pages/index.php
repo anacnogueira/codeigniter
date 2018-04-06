@@ -12,7 +12,7 @@
 			<td class="text-right">
 				<a href="/pages/<?php echo $page->id; ?>" class="btn btn-xs btn-default">Ver</a>
 				<a href="/pages/<?php echo $page->id; ?>" class="btn btn-xs btn-info">Editar</a>
-				<form action="/pages/<?php echo $page->id; ?>/delete" style="display:inline-block">
+				<form action="/pages/<?php echo $page->id; ?>/delete" method="post" style="display:inline-block">
 					<input type="submit" class="btn btn-xs btn-danger" value="Remover">
 				</form>
 			</td>
